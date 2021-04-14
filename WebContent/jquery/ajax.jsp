@@ -18,7 +18,7 @@
 	board.setContent(cnt);
 	board.setWriter(wrt);
  	
-	dao.insertBoard(board);
+	dao.insertBoard(board); 
 	
  	String result = 
  		"{\"boardNo\":\""+ bno + "\","
