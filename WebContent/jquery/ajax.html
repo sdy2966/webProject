@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Insert title here</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			// let query = 'boardNo=1&title=test&content=test&writer=user1';
+			//리스트 보여주기
+			$.ajax({
+				url: 'ajaxList.jsp',   //호출페이지
+				dataType: 'json',
+				success: function(result){
+					console.log(result);
+					//테이블에 표로 데이터 보여 줄 수 있게
+					let tbl = $('<table />');
+					
+					let trTag;
+					
+					for (data of result) {
+						trTag = $('<tr />');
+						trTag.append(
+								$('<td />').html(data.boardNo),
+								$('<td />').html(data.title),
+								$('<td />').html(data.content),
+								$('<td />').html(data.writer),
+								$('<td />').html($('<button />').html('Del').click(delData))
+							);
+						data.boardNo;
+					}
+				}, 
+				error: function (reject) {
+					console.error(reject)
+				}
+			});
+			
+			
+			function delData() {
+				
+			}
+			
+			
+			
+			$('#frm').submit(function() {
+				event.preventDefault();//jsp 페이지로 넘어가지말고 난 이 페이지에서 값을 불러오겠다
+
+				console.log($('#frm').serialize());
+				$.ajax({
+				url: $('#frm').attr('action'), //액션 솏ㅇ값을 읽어와라
+				// data: {boardNo: $('input[name="boardNo"]').val(),
+				// 		title: $('input[name="title"]').val(), 
+				// 		content: $('textarea[name="content"]').val(), 
+				// 		writer: $('input[name="writer"]').val()
+				// 	},
+				// ===========================================================
+				data: $('#frm').serialize(),
+				success: function(data) {
+					let result = JSON.parse(data);//JSON -> object
+					console.log(result);
+
+					$('input[name="boardNo"]').val('');
+					$('input[name="title"]').val('');
+					$('textarea[name="content"]').val('');
+					$('input[name="writer"]').val('');
+				}
+			});
+		});
+
+			
+	});
+		
+		
+		
+	</script>
+</head>
+<body>
+	<form action="ajax.jsp" id="frm" method="GET">
+		<div>게시글 번호: <input type="test" name="boardNo"></div>
+		<div>제목: <input type="text" name="title"></div>
+		<div>내용: <textarea name="content" cols="30" rows="10">
+			</textarea></div>
+		<div>작성자: <input type="text" name="writer"></div>
+		<div><input type="submit" value="send">
+		<input type="reset" value="Cancel"></div>
+	</form>
+
+	<div id="show"></div>
+</body>
+</html>
