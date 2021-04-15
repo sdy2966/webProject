@@ -18,13 +18,17 @@
 	board.setContent(cnt);
 	board.setWriter(wrt);
  	
-	dao.insertBoard(board); 
+	Board retVal = new Board();
+	retVal = dao.insertBoardResult(board);
+	
+		 
 	
  	String result = 
- 		"{\"boardNo\":\""+ bno + "\","
- 		+"\"title\":\""+ til + "\","
- 		+"\"content\":\""+ cnt + "\","
- 		+"\"writer\":\""+ wrt + "\"}";
+ 		"{\"boardNo\":\""+ retVal.getBoardNo() + "\","
+ 		+"\"title\":\""+ retVal.getTitle() + "\","
+ 		+"\"content\":\""+ retVal.getContent() + "\","
+		+"\"creationDate\":\""+ retVal.getCreationDate() + "\","
+ 		+"\"writer\":\""+ retVal.getWriter() + "\"}";
  		out.print(result);
 	//{"boardNo": "1", "title":"test", "content": "test", "writer":"user1"}
  %>

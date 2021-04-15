@@ -16,8 +16,8 @@
 				success: function(result){
 					console.log(result);
 					//테이블에 표로 데이터 보여 줄 수 있게
-					let tbl = $('<table />');
-					
+					let tbl = $('<table id="tbl" board="1" />');
+					tbl.attr('id','tbl');
 					let trTag;
 					
 					for (data of result) {
@@ -27,27 +27,31 @@
 								$('<td />').html(data.title),
 								$('<td />').html(data.content),
 								$('<td />').html(data.writer),
+								$('<td />').html(data.creationDate),
 								$('<td />').html($('<button />').html('Del').click(delData))
 							);
-						data.boardNo;
+						tbl.append(trTag);
 					}
-				}, 
-				error: function (reject) {
-					console.error(reject)
+					$('#show').append(tbl);
+				},
+				error: function (refect) {
+					console.log(reject);
 				}
-			});
-			
+					
+					
+			});	
 			
 			function delData() {
+				//화면 삭제 
+				
+				//데이터 베이스 삭제
 				
 			}
 			
-			
-			
 			$('#frm').submit(function() {
 				event.preventDefault();//jsp 페이지로 넘어가지말고 난 이 페이지에서 값을 불러오겠다
-
 				console.log($('#frm').serialize());
+				
 				$.ajax({
 				url: $('#frm').attr('action'), //액션 솏ㅇ값을 읽어와라
 				// data: {boardNo: $('input[name="boardNo"]').val(),
@@ -65,6 +69,18 @@
 					$('input[name="title"]').val('');
 					$('textarea[name="content"]').val('');
 					$('input[name="writer"]').val('');
+					
+					
+					//테이블의 제일 마지막 위치에 tr생성한 후 append.
+					let $tr = $('<tr />').append( //$tr이거 갸ㅑㅇ 변수이름 $사용가능
+						$('<td />').html(result.boardNo),
+						$('<td />').html(result.title),
+						$('<td />').html(result.content),
+						$('<td />').html(result.writer),
+						$('<td />').html(result.creationDate),
+						$('<td />').html($('<button />').html('Del'))
+					);
+					$('#tbl').append($tr);
 				}
 			});
 		});
@@ -78,7 +94,7 @@
 </head>
 <body>
 	<form action="ajax.jsp" id="frm" method="GET">
-		<div>게시글 번호: <input type="test" name="boardNo"></div>
+		<div>게시글 번호: <input type="text" name="boardNo"></div>
 		<div>제목: <input type="text" name="title"></div>
 		<div>내용: <textarea name="content" cols="30" rows="10">
 			</textarea></div>
