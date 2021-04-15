@@ -16,7 +16,8 @@
 	result += "{\"boardNo\":\""+list.get(i).getBoardNo()+"\","
                + "\"title\":\""+list.get(i).getTitle().trim()+"\","
                + "\"content\":\""+list.get(i).getContent().trim()+"\","
-               + "\"writer\":\""+list.get(i).getWriter().trim()+"\"}";
+               + "\"writer\":\""+list.get(i).getWriter().trim()+"\","
+        	   + "\"creationDate\":\""+list.get(i).getCreationDate().trim()+"\"}";
          result += (i == list.size() -1 ? "" : "," );
 	}
 	result += "]";

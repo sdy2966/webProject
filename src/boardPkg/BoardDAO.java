@@ -99,20 +99,33 @@ public class BoardDAO {
 
 	}
 
-	// ?��?��
-	public void insertBoard(Board board) {
+	// 입력한 결과 반환
+	public Board insertBoardResult(Board board) {
 		conn = DBCon.getConnection();
 		sql = "insert into board values("+ board.getBoardNo() + ",'" + board.getTitle() + "'" + ",'"
 				+ board.getContent() + "'" + ",'" + board.getWriter() + "'" + ", sysdate" + ")";
+		
+		String sql1 = "select * from board where board_no = " + board.getBoardNo();
+		Board retunVal = new Board();
 		try {
 			stmt = conn.createStatement();
 			int r = stmt.executeUpdate(sql);
 			System.out.println(r + "건 입력");
+			
+			rs = stmt.executeQuery(sql1);
+			if(rs.next()) {
+				retunVal.setBoardNo(rs.getInt("board_no"));
+				retunVal.setTitle(rs.getString("title"));
+				retunVal.setContent(rs.getString("content"));
+				retunVal.setWriter(rs.getString("writer"));
+				retunVal.setCreationDate(rs.getString("creationDate"));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close();
 		}
+		return retunVal;
 	}
 
 	// ?��?��
@@ -160,18 +173,35 @@ public class BoardDAO {
 	}
 
 	// ?��?��
-	public void deleteBoard(Board board) {
+	public Board deleBoardList (Board board) {
 		conn = DBCon.getConnection();
 		sql = "delete from board where board_no ="+ board.getBoardNo();
+		
 		try {
 			stmt = conn.createStatement();
 			int r = stmt.executeUpdate(sql);
-			System.out.println(r + "삭제...?");
+			System.out.println(r + "건 삭제...?");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close();
 		}
+		return retunVal;
 	}
+	
+//	
+//	public void deleteBoard(Board board) {
+//		conn = DBCon.getConnection();
+//		sql = "delete from board where board_no ="+ board.getBoardNo();
+//		try {
+//			stmt = conn.createStatement();
+//			int r = stmt.executeUpdate(sql);
+//			System.out.println(r + "삭제...?");
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			close();
+//		}
+//	}
 	
 }

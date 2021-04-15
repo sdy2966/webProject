@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"> </script>
+</head>
+
+<body>
+    <script>
+        $.ajax({
+            url: 'members.json',
+            success: function (result) {
+                let objs = $(result).map(function(idx, obj) {
+                    let person = {};
+                    person.id = obj.mem_id;
+                    person.name = obj.first_name;
+                    person.lastname = obj.last_name;
+                    person.email = obj.email;
+                    person.gender = obj.gender;
+                    person.address = obj.address;
+                    return person;
+                })
+                console.log(objs);
+
+                let tbl, trTag, tdTag, titles;
+                tbl = $('<table border="1" />');
+
+                titles =  {
+                    id: "Mem_ID",
+                    first_name:"firstName",
+                    last_name:"lastName",
+                    email:"Email",
+                    gender:"Gender",
+                    address:"Address"
+                    }
+                
+                trTag = $('<tr />');
+                for(title in titles) {
+                thTag = $('<th />').html(titles[title]);
+                trTag.append(thTag); 
+                }   
+                tbl.append(trTag);
+
+               
+                $(objs).each(function (idx, obj) {
+                    trTag = $('<tr />');
+                    for (field in obj) {
+                        tdTag = $('<td />').html(obj[field]);
+                        tbl.append(trTag);
+                        trTag.append(tdTag);
+                    }
+                })
+                $('body').append(tbl);
+            }
+
+        });
+    </script>
+</body>
+
+</html>
