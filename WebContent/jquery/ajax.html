@@ -16,7 +16,7 @@
 				success: function(result){
 					console.log(result);
 					//테이블에 표로 데이터 보여 줄 수 있게
-					let tbl = $('<table />');
+					let tbl = $('<table border="1"/>');
 					
 					let trTag;
 					
@@ -29,8 +29,10 @@
 								$('<td />').html(data.writer),
 								$('<td />').html($('<button />').html('Del').click(delData))
 							);
-						data.boardNo;
+						tbl.append(trTag);
 					}
+					$('#show').append(tbl);
+					
 				}, 
 				error: function (reject) {
 					console.error(reject)
